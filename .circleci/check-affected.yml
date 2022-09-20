@@ -1,6 +1,6 @@
 version: 2.1
 jobs:
-  job1:
+  check-affected:
     docker:
       - image: cimg/base:2021.04
     steps:
