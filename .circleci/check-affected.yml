@@ -5,10 +5,11 @@ jobs:
       - image: cimg/base:2021.04
     steps:
       - run: echo dynamic config!
+      - run: echo "export AFFECTED_APP=whitelabel" >> $BASH_ENV
       # - run: echo "export AFFECTED_APP=whitelabel" >> $BASH_ENV
-      - run:
-          name: Set custom environment variable
-          command: echo AFFECTED_APP=whitelabel >> "${BASH_ENV}"
+      # - run:
+      #     name: Set custom environment variable
+      #     command: echo AFFECTED_APP=whitelabel >> "${BASH_ENV}"
       - run: echo $AFFECTED_APP
       - run: echo ${CIRCLE_PROJECT_USERNAME} ${CIRCLE_PROJECT_REPONAME}
       - run: | 
