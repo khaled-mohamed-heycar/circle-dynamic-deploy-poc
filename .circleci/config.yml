@@ -32,6 +32,6 @@ jobs:
           configuration_path: ".circleci/<< pipeline.parameters.yml-path >>/<< pipeline.parameters.yml-file >>"
 
 workflows:
-  setup:
+  main-processing:
     jobs:
       - processing

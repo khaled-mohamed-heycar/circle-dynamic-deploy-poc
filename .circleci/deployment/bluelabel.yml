@@ -12,12 +12,12 @@ parameters:
     type: string
 
 jobs:
-  bluelabel-pipeline:
+  bluelabel-processing:
     docker:
       - image: cimg/base:2021.04
     steps:
       - run: Running Bluelabel Pipeline.
 workflows:
-  workflow1:
+  bluelabel-workflow:
     jobs:
-      - bluelabel-pipeline
+      - bluelabel-processing

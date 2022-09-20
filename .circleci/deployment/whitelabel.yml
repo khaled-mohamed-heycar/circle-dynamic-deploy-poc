@@ -12,12 +12,12 @@ parameters:
     type: string
 
 jobs:
-  whitelabel-pipeline:
+  whitelabel-processing:
     docker:
       - image: cimg/base:2021.04
     steps:
       - run: Running whitelabel Pipeline.
 workflows:
-  workflow1:
+  whitelabel-workflow:
     jobs:
-      - whitelabel-pipeline
+      - whitelabel-processing
