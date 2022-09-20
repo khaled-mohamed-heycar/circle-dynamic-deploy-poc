@@ -9,6 +9,7 @@ jobs:
       - run:
           name: Set custom environment variable
           command: echo AFFECTED_APP=whitelabel >> "${BASH_ENV}"
+      - run: echo $AFFECTED_APP
       - run: echo ${CIRCLE_PROJECT_USERNAME} ${CIRCLE_PROJECT_REPONAME}
       - run: | 
               curl --location --request POST "https://circleci.com/api/v2/project/gh/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pipeline" \
