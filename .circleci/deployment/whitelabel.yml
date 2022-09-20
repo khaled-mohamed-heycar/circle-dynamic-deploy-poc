@@ -1,0 +1,23 @@
+version: 2.1
+
+parameters:
+  setup-config-param:
+    default: "Running whitelabel pipeline"
+    type: string
+  yml-file:
+    default: "whitelabel.yml"
+    type: string
+  yml-path:
+    default: "deployment"
+    type: string
+
+jobs:
+  whitelabel-pipeline:
+    docker:
+      - image: cimg/base:2021.04
+    steps:
+      - run: Running whitelabel Pipeline.
+workflows:
+  workflow1:
+    jobs:
+      - whitelabel-pipeline

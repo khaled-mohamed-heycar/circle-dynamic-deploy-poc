@@ -1,0 +1,23 @@
+version: 2.1
+
+parameters:
+  setup-config-param:
+    default: "Running Bluelabel pipeline"
+    type: string
+  yml-file:
+    default: "bluelabel.yml"
+    type: string
+  yml-path:
+    default: "deployment"
+    type: string
+
+jobs:
+  bluelabel-pipeline:
+    docker:
+      - image: cimg/base:2021.04
+    steps:
+      - run: Running Bluelabel Pipeline.
+workflows:
+  workflow1:
+    jobs:
+      - bluelabel-pipeline

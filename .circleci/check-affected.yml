@@ -1,0 +1,24 @@
+version: 2.1
+jobs:
+  job1:
+    docker:
+      - image: cimg/base:2021.04
+    steps:
+      - run: echo dynamic config!
+      - run: AFFECTED_APP=whitelabel
+      - run: echo ${CIRCLE_PROJECT_USERNAME} ${CIRCLE_PROJECT_REPONAME}
+      - run: | 
+              curl --location --request POST "https://circleci.com/api/v2/project/gh/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pipeline" \
+                    -u "2b06e99da7d2d8e25cc9c6dabcf97178197da720:" \
+                    --header 'Content-Type: application/json' \
+                    --data-raw '{
+                                  "parameters": {
+                                    "setup-config-param": "deploying application $AFFECTED_APP",
+                                    "yml-file": "$AFFECTED_APP.yml",
+                                    "yml-path": "deployment"
+                                  }
+                                }'
+workflows:
+  workflow1:
+    jobs:
+      - check-affected
