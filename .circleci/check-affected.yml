@@ -18,8 +18,8 @@ jobs:
                     --header 'Content-Type: application/json' \
                     --data-raw '{
                                   "parameters": {
-                                    "setup-config-param": "deploying application ${AFFECTED_APP}",
-                                    "yml-file": "${AFFECTED_APP}.yml",
+                                    "setup-config-param": "deploying application $AFFECTED_APP",
+                                    "yml-file": "$AFFECTED_APP.yml",
                                     "yml-path": "deployment"
                                   }
                                 }'
