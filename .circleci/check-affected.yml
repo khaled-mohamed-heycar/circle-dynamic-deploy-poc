@@ -5,7 +5,7 @@ jobs:
       - image: cimg/base:2021.04
     steps:
       - run: echo "Checking affected applications."
-      - run: echo "export AFFECTED_APPS=whitelabel,spiegel" >> $BASH_ENV
+      - run: echo "export AFFECTED_APPS=whitelabel,bluelabel,spiegel" >> $BASH_ENV
       - run: echo $AFFECTED_APPS
       - run: echo ${CIRCLE_PROJECT_USERNAME} ${CIRCLE_PROJECT_REPONAME}
       - run: | 

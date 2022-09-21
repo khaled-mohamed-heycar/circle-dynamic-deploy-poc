@@ -1,5 +1,10 @@
 version: 2.1
 
+parameters:
+  affected-app:
+    default: "deployment/whitelabel"
+    type: string
+
 jobs:
   whitelabel-processing:
     docker:
