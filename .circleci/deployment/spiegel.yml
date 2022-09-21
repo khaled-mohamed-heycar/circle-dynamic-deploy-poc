@@ -1,5 +1,10 @@
 version: 2.1
 
+parameters:
+  affected-app:
+    default: "deployment/spiegel"
+    type: string
+
 jobs:
   spiegel-processing:
     docker:
