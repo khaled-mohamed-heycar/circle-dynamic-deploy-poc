@@ -1,16 +1,5 @@
 version: 2.1
 
-parameters:
-  setup-config-param:
-    default: "Running spiegel pipeline"
-    type: string
-  yml-file:
-    default: "spiegel.yml"
-    type: string
-  yml-path:
-    default: "deployment"
-    type: string
-
 jobs:
   spiegel-processing:
     docker:

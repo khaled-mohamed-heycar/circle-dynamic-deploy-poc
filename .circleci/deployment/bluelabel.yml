@@ -1,16 +1,5 @@
 version: 2.1
 
-parameters:
-  setup-config-param:
-    default: "Running Bluelabel pipeline"
-    type: string
-  yml-file:
-    default: "bluelabel.yml"
-    type: string
-  yml-path:
-    default: "deployment"
-    type: string
-
 jobs:
   bluelabel-processing:
     docker:

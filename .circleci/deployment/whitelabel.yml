@@ -1,16 +1,5 @@
 version: 2.1
 
-parameters:
-  setup-config-param:
-    default: "Running whitelabel pipeline"
-    type: string
-  yml-file:
-    default: "whitelabel.yml"
-    type: string
-  yml-path:
-    default: "deployment"
-    type: string
-
 jobs:
   whitelabel-processing:
     docker:
