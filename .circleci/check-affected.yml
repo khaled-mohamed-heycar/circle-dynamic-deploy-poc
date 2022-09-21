@@ -5,24 +5,27 @@ jobs:
       - image: cimg/base:2021.04
     steps:
       - run: echo dynamic config!
-      - run: echo "export AFFECTED_APP=whitelabel" >> $BASH_ENV
-      # - run: echo "export AFFECTED_APP=whitelabel" >> $BASH_ENV
-      # - run:
-      #     name: Set custom environment variable
-      #     command: echo AFFECTED_APP=whitelabel >> "${BASH_ENV}"
+      - run: echo "export AFFECTED_APP=whitelabel,bluelabel" >> $BASH_ENV 
       - run: echo $AFFECTED_APP
       - run: echo ${CIRCLE_PROJECT_USERNAME} ${CIRCLE_PROJECT_REPONAME}
       - run: | 
-              curl --location --request POST "https://circleci.com/api/v2/project/gh/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pipeline" \
+              for app in ${AFFECTED_APP//,/ }
+              do
+                  curl --location --request POST "https://circleci.com/api/v2/project/gh/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pipeline" \
                     -u "62ffd0cd2983c774e0f5a590e4326ad6e49b2cfc:" \
                     --header 'Content-Type: application/json' \
                     --data-raw '{
                                   "parameters": {
-                                    "setup-config-param": "deploying application '$(echo $AFFECTED_APP)'",
-                                    "yml-file": "'$(echo $AFFECTED_APP)'.yml",
+                                    "setup-config-param": "deploying application '$(echo $app)'",
+                                    "yml-file": "'$(echo $app)'.yml",
                                     "yml-path": "deployment"
                                   }
                                 }'
+              done
+
+              
+              
+              
 workflows:
   Affected-app-checker:
     jobs:
