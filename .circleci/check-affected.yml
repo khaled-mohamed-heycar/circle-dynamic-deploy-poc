@@ -5,7 +5,7 @@ jobs:
       - image: cimg/base:2021.04
     steps:
       - run: echo dynamic config!
-      - run: echo "export AFFECTED_APP=whitelabel,bluelabel" >> $BASH_ENV 
+      - run: echo "export AFFECTED_APP=whitelabel,spiegel" >> $BASH_ENV 
       - run: echo $AFFECTED_APP
       - run: echo ${CIRCLE_PROJECT_USERNAME} ${CIRCLE_PROJECT_REPONAME}
       - run: | 
