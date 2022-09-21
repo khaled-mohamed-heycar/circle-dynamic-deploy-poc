@@ -5,18 +5,19 @@ jobs:
       - image: cimg/base:2021.04
     steps:
       - run: echo "Checking affected applications."
-      - run: echo "export AFFECTED_APPS=whitelabel,spiegel" >> $BASH_ENV 
+      - run: echo "export AFFECTED_APPS=whitelabel,spiegel" >> $BASH_ENV
+      - run: echo "export AFFECTED_APPS_PATH=deployment" >> $BASH_ENV 
       - run: echo $AFFECTED_APPS
       - run: echo ${CIRCLE_PROJECT_USERNAME} ${CIRCLE_PROJECT_REPONAME}
       - run: | 
-              for app in ${AFFECTED_APPS//,/ }
+              for affectedapp in ${AFFECTED_APPS//,/ }
               do
                   curl --location --request POST "https://circleci.com/api/v2/project/gh/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/pipeline" \
                     -u "62ffd0cd2983c774e0f5a590e4326ad6e49b2cfc:" \
                     --header 'Content-Type: application/json' \
                     --data-raw '{
                                   "parameters": {
-                                    "affected-app": "'$(echo $app)'"                                  
+                                    "affected-app": "${AFFECTED_APPS_PATH}/'$(echo $affectedapp)'"                                  
                                   }
                                 }'
               done
