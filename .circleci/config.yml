@@ -33,16 +33,17 @@ jobs:
       - run: echo "Proxy routes to $(basename << pipeline.parameters.affected-app >>) pipeline"
       - continuation/continue:
           configuration_path: ".circleci/<< pipeline.parameters.affected-app >>.yml"
-  preprocess: 
+  preprocess:
     executor: phrase-2-4-10
     steps: 
       - run: echo "Run Preprocess." 
 
+
 workflows:
-  pipeline-proxy:   
+  pipeline-proxy:
     jobs:
       - router
-  preprocess: 
-    unless: << pipeline.parameters.affected-app-checked >>
-    jobs: 
-      - preprocess    
+  workflow2:
+    when: << pipeline.parameters.affected-app-checked >>   
+    jobs:
+      - preprocess
