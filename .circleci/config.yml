@@ -41,6 +41,7 @@ jobs:
 
 workflows:
   pipeline-proxy:
+    unless: << pipeline.parameters.affected-app-checked >> 
     jobs:
       - router
   workflow2:
