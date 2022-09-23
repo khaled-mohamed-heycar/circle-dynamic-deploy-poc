@@ -16,7 +16,8 @@ jobs:
                     --header 'Content-Type: application/json' \
                     --data-raw '{
                                   "parameters": {
-                                    "affected-app": "deployment/'$(echo $affectedapp)'"                                  
+                                    "affected-app": "deployment/'$(echo $affectedapp)'", 
+                                    "affected-app-checked": true                              
                                   }
                                 }'
               done
