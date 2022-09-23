@@ -33,18 +33,45 @@ jobs:
       - run: echo "Proxy routes to $(basename << pipeline.parameters.affected-app >>) pipeline"
       - continuation/continue:
           configuration_path: ".circleci/<< pipeline.parameters.affected-app >>.yml"
-  preprocess:
+  install-dependencies:
     executor: phrase-2-4-10
     steps: 
-      - run: echo "Run Preprocess." 
-
-
+      - run: echo "Run install-dependencies."
+  fetch-locales:
+    executor: phrase-2-4-10
+    steps: 
+      - run: echo "Run fetch-locales."
+  run-unit-tests:
+    executor: phrase-2-4-10
+    steps: 
+      - run: echo "Run run-unit-tests."
+  run-linter:
+    executor: phrase-2-4-10
+    steps: 
+      - run: echo "Run run-linter."
+             
 workflows:
   pipeline-proxy:
     unless: << pipeline.parameters.affected-app-checked >> 
     jobs:
-      - preprocess
-      - router
+      - install-dependencies:
+          context: heycar
+      - fetch-locales:
+          context: heycar
+          requires:
+            - install-dependencies
+      - run-unit-tests:
+          context: heycar
+          requires:
+            - fetch-locales
+      - run-linter:
+          context: heycar
+          requires:
+            - fetch-locales
+      - router: 
+          context: heycar
+          requires:
+            - fetch-locales
   app-loader:
     when: << pipeline.parameters.affected-app-checked >>   
     jobs:
