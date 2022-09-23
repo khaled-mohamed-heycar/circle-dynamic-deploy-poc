@@ -32,6 +32,18 @@ workflows:
           requires:
             - fetch-locales
 
+definitions:
+  node_image: &node-image
+    docker:
+      - image: cimg/node:14.15.5
+
+  node_cypress_image: &node_cypress_image
+    docker:
+      - image: cypress/base-14-7-0
+
+  cypress-env: &cypress-env
+    CYPRESS_CACHE_FOLDER: .cache/Cypress
+
 jobs:
   router:
     executor: continuation/default
@@ -49,50 +61,21 @@ jobs:
     environment:
       <<: *cypress-env
     steps:
-      - *add-ssh-key
-      - checkout
-      - *restore-cache
-      - *npm-registry-auth
-      - run: yarn install --frozen-lockfile
-      - *save-cache
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
+      - run: echo "Install Dependencies."
   fetch-locales:
     executor: phrase-2-4-10
     description: Fetch locales from phrase
     steps:
-      - attach_workspace:
-          at: .
-      - run: phrase pull --access_token ${PHRASE_ACCESS_TOKEN}
-      - persist_to_workspace:
-          root: .
-          paths:
-            - libs/shared/utils-messages/
+      - run: echo "Fetching Locales"
 
   run-unit-tests:
     <<: *node-image
     description: Run unit tests
     steps:
-      - attach_workspace:
-          at: .
-      # token is required to get the last passing commit
-      # CIRCLE_TOKEN comes from heycar context
-      - run: echo "export CIRCLE_API_TOKEN=$CIRCLE_TOKEN PARAM_MAIN_BRANCH=main" >> $BASH_ENV
-      - nx/set-shas
-      - run: yarn nx affected:test --configuration=ci --base=$NX_BASE
-      - persist_to_workspace:
-          root: .
-          paths:
-            # TODO: These need to be double-checked before finishing the nx migration
-            - reports/
-            - coverage/
+      - run: echo "Run Unit tests."
 
   run-linter:
     <<: *node-image
     description: Run linter
     steps:
-      - attach_workspace:
-          at: .
-      - run: yarn nx lint
+      - run: echo "Run Linter."
