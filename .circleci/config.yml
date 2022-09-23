@@ -33,16 +33,6 @@ workflows:
             - fetch-locales
 
 definitions:
-  node_image: &node-image
-    docker:
-      - image: cimg/node:14.15.5
-
-  node_cypress_image: &node_cypress_image
-    docker:
-      - image: cypress/base-14-7-0
-
-  cypress-env: &cypress-env
-    CYPRESS_CACHE_FOLDER: .cache/Cypress
 
 jobs:
   router:
@@ -56,26 +46,16 @@ jobs:
     steps: 
       - run: echo "Run Preprocess." 
   install-dependencies:
-    <<: *node-image
-    description: Install dependencies
-    environment:
-      <<: *cypress-env
     steps:
       - run: echo "Install Dependencies."
   fetch-locales:
-    executor: phrase-2-4-10
-    description: Fetch locales from phrase
     steps:
       - run: echo "Fetching Locales"
 
   run-unit-tests:
-    <<: *node-image
-    description: Run unit tests
     steps:
       - run: echo "Run Unit tests."
 
   run-linter:
-    <<: *node-image
-    description: Run linter
     steps:
       - run: echo "Run Linter."
