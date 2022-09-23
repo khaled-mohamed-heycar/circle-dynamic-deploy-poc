@@ -12,17 +12,6 @@ parameters:
     default: "./check-affected"
     type: string
 
-workflows:
-  pipeline-proxy:   
-    jobs:
-      - router
-      - install-dependencies
-      - fetch-locales
-      - run-unit-tests
-      - run-linter
-
-definitions:
-
 jobs:
   router:
     executor: continuation/default
@@ -34,15 +23,9 @@ jobs:
   preprocess: 
     steps: 
       - run: echo "Run Preprocess." 
-  install-dependencies:
-    steps:
-      - run: echo "Install Dependencies."
-  fetch-locales:
-    steps:
-      - run: echo "Fetching Locales"
-  run-unit-tests:
-    steps:
-      - run: echo "Run Unit tests."
-  run-linter:
-    steps:
-      - run: echo "Run Linter."
+
+workflows:
+  pipeline-proxy:   
+    jobs:
+      - router
+      - preprocess
