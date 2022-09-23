@@ -43,9 +43,9 @@ workflows:
   pipeline-proxy:
     unless: << pipeline.parameters.affected-app-checked >> 
     jobs:
+      - preprocess
       - router
-  workflow2:
+  app-loader:
     when: << pipeline.parameters.affected-app-checked >>   
     jobs:
-      - preprocess
       - router
