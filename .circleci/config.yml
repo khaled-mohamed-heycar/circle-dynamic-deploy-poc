@@ -4,8 +4,6 @@ setup: true
  
 orbs:
   continuation: circleci/continuation@0.1.2
-  aws-s3: circleci/aws-s3@3.0.0
-  nx: nrwl/nx@1.1.0
 
 parameters:
   affected-app:
