@@ -4,6 +4,10 @@ parameters:
   affected-app:
     default: "deployment/whitelabel"
     type: string
+  affected-app-checked: 
+    default: true
+    type: boolean
+
 
 jobs:
   whitelabel-processing:

@@ -4,6 +4,9 @@ parameters:
   affected-app:
     default: "deployment/bluelabel"
     type: string
+  affected-app-checked: 
+    default: true
+    type: boolean  
 
 jobs:
   bluelabel-processing:
