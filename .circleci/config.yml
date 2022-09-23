@@ -15,22 +15,11 @@ parameters:
 workflows:
   pipeline-proxy:   
     jobs:
-      - router: 
-          context: heycar
-      - install-dependencies:
-          context: heycar
-      - fetch-locales:
-          context: heycar
-          requires:
-            - install-dependencies
-      - run-unit-tests:
-          context: heycar
-          requires:
-            - fetch-locales
-      - run-linter:
-          context: heycar
-          requires:
-            - fetch-locales
+      - router
+      - install-dependencies
+      - fetch-locales
+      - run-unit-tests
+      - run-linter
 
 definitions:
 
@@ -51,11 +40,9 @@ jobs:
   fetch-locales:
     steps:
       - run: echo "Fetching Locales"
-
   run-unit-tests:
     steps:
       - run: echo "Run Unit tests."
-
   run-linter:
     steps:
       - run: echo "Run Linter."
