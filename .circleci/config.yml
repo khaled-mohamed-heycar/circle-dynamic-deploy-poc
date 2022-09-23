@@ -9,6 +9,9 @@ parameters:
   affected-app:
     default: "./check-affected"
     type: string
+  affected-app-checked: 
+    default: false
+    type: boolean  
 
 executors:
   base-12-14-0:
@@ -39,4 +42,7 @@ workflows:
   pipeline-proxy:   
     jobs:
       - router
-      - preprocess
+  preprocess: 
+    unless: << pipeline.parameters.affected-app-checked >>
+    jobs: 
+      - preprocess    
