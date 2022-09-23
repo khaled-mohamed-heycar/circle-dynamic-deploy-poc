@@ -48,3 +48,4 @@ workflows:
     when: << pipeline.parameters.affected-app-checked >>   
     jobs:
       - preprocess
+      - router
