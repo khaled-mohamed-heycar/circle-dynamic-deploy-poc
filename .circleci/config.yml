@@ -49,9 +49,13 @@ jobs:
     executor: phrase-2-4-10
     steps: 
       - run: echo "Run run-linter."
+  inherited: 
+    executor: phrase-2-4-10
+    steps: 
+      - run: echo "Run Inherited."    
              
 workflows:
-  pipeline-proxy:
+  preprocess-operation:
     unless: << pipeline.parameters.affected-app-checked >> 
     jobs:
       - install-dependencies:
@@ -72,7 +76,7 @@ workflows:
           context: heycar
           requires:
             - fetch-locales
-  app-loader:
+  app-deployer:
     when: << pipeline.parameters.affected-app-checked >>   
     jobs:
       - router

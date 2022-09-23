@@ -18,3 +18,4 @@ workflows:
   bluelabel-workflow:
     jobs:
       - bluelabel-processing
+      - inherited
