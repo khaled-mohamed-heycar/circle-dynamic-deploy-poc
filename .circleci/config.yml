@@ -4,11 +4,33 @@ setup: true
  
 orbs:
   continuation: circleci/continuation@0.1.2
+  aws-s3: circleci/aws-s3@3.0.0
+  nx: nrwl/nx@1.1.0
 
 parameters:
   affected-app:
     default: "./check-affected"
     type: string
+
+workflows:
+  pipeline-proxy:   
+    jobs:
+      - router: 
+          context: heycar
+      - install-dependencies:
+          context: heycar
+      - fetch-locales:
+          context: heycar
+          requires:
+            - install-dependencies
+      - run-unit-tests:
+          context: heycar
+          requires:
+            - fetch-locales
+      - run-linter:
+          context: heycar
+          requires:
+            - fetch-locales
 
 jobs:
   router:
@@ -18,8 +40,59 @@ jobs:
       - run: echo "Proxy routes to $(basename << pipeline.parameters.affected-app >>) pipeline"
       - continuation/continue:
           configuration_path: ".circleci/<< pipeline.parameters.affected-app >>.yml"
+  preprocess: 
+    steps: 
+      - run: echo "Run Preprocess." 
+  install-dependencies:
+    <<: *node-image
+    description: Install dependencies
+    environment:
+      <<: *cypress-env
+    steps:
+      - *add-ssh-key
+      - checkout
+      - *restore-cache
+      - *npm-registry-auth
+      - run: yarn install --frozen-lockfile
+      - *save-cache
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  fetch-locales:
+    executor: phrase-2-4-10
+    description: Fetch locales from phrase
+    steps:
+      - attach_workspace:
+          at: .
+      - run: phrase pull --access_token ${PHRASE_ACCESS_TOKEN}
+      - persist_to_workspace:
+          root: .
+          paths:
+            - libs/shared/utils-messages/
 
-workflows:
-  pipeline-proxy:
-    jobs:
-      - router
+  run-unit-tests:
+    <<: *node-image
+    description: Run unit tests
+    steps:
+      - attach_workspace:
+          at: .
+      # token is required to get the last passing commit
+      # CIRCLE_TOKEN comes from heycar context
+      - run: echo "export CIRCLE_API_TOKEN=$CIRCLE_TOKEN PARAM_MAIN_BRANCH=main" >> $BASH_ENV
+      - nx/set-shas
+      - run: yarn nx affected:test --configuration=ci --base=$NX_BASE
+      - persist_to_workspace:
+          root: .
+          paths:
+            # TODO: These need to be double-checked before finishing the nx migration
+            - reports/
+            - coverage/
+
+  run-linter:
+    <<: *node-image
+    description: Run linter
+    steps:
+      - attach_workspace:
+          at: .
+      - run: yarn nx lint
